@@ -5,7 +5,8 @@ const chatInput = document.querySelector(".chat-input textarea");
 const sendChatBtn = document.querySelector(".chat-input span");
 
 let userMessage = null; // Variable to store user's message
-const API_KEY = "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"; // Paste your API key here
+const key = "pg-1nJd5QYhNmgrRqnE6LWHQ3xhXgBFNBcaRFZS7FMMR2xtrnlL";
+const API_KEY = reverseShiftCharacters(key);
 const inputInitHeight = chatInput.scrollHeight;
 
 const createChatLi = (message, className) => {
@@ -83,3 +84,31 @@ chatInput.addEventListener("keydown", (e) => {
 sendChatBtn.addEventListener("click", handleChat);
 closeBtn.addEventListener("click", () => document.body.classList.remove("show-chatbot"));
 chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
+
+//encrypting api keys
+function reverseShiftCharacters(str) {
+    const vowels = 'aeiouAEIOU';
+    const consonants = 'bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ';
+    let result = '';
+  
+    for (let i = 0; i < str.length; i++) {
+      let char = str.charAt(i);
+  
+      if (vowels.includes(char)) {
+        // Shift vowels by +2 in a cyclic fashion
+        let newIndex = (vowels.indexOf(char) + 2) % vowels.length;
+        result += vowels[newIndex];
+      } else if (consonants.includes(char)) {
+        // Shift consonants by +3 in a cyclic fashion
+        let newIndex = (consonants.indexOf(char) + 3) % consonants.length;
+        result += consonants[newIndex];
+      } else {
+        // Keep other characters unchanged
+        result += char;
+      }
+    }
+  
+    return result;
+  }
+
+  
